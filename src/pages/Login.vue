@@ -45,7 +45,8 @@
 
 <script>
 import AX from "lib/axios-conf.js";
-import RSA from "node-rsa";
+// import RSA from "node-rsa";
+import { utils } from "../utils/utils.js";
 const defaultImgAva = require("../assets/defaultAva.jpg");
 export default {
   data() {
@@ -92,18 +93,28 @@ export default {
     getPubKey: function() {
       AX("/pubkey", "get")
         .then(res => {
+          console.log(res);
           this.pubKey = res.data.pubKey;
         })
         .catch(error => {
           console.log(error);
         });
     },
-    rsaEncrypt: function(message, key) {
-      let pubkey = new RSA(key);
-      let encrypted = pubkey.encrypt(message, "base64");
-      console.log(encrypted);
-      return encrypted;
-    },
+    // changeREA: function() {
+    //   AX("/creatersa", "get")
+    //     .then(res => {
+    //       console.log(res)
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // },
+    // 加密
+    // rsaEncrypt: function(message, key) {
+    //   let pubkey = new RSA(key);
+    //   let encrypted = pubkey.encrypt(message, "base64");
+    //   return encrypted;
+    // },
     submitBtn: function(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
@@ -116,7 +127,7 @@ export default {
     // 发送用户信息
     sendUserData: function(user) {
       let name = user.user;
-      let password = this.rsaEncrypt(user.password, this.pubKey);
+      let password = utils.rsaEncrypt(user.password, this.pubKey);
       this.loading = true;
       AX({
         url: "/login",
