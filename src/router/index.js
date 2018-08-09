@@ -2,23 +2,33 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index'
 import Welcome from '@/pages/Index'
+import LoginIndex from '@/pages/LoginIndex'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 
 Vue.use(Router)
 const router = new Router({
   routes: [
-    // 登录注册模块 
+    // 登录注册模块
     {
-      path: '/login',
-      title: '登录',
-      component: Login,
-    }, {
-      path: '/register',
-      title: '注册',
-      component: Register,
-    }, {
       path: '/',
+      component: LoginIndex,
+      children: [
+        {
+          path: '/',
+          title: '登录',
+          name: 'login',
+          component: Login,
+        },
+        {
+          path: '/register',
+          title: '注册',
+          name: 'register',
+          component: Register,
+        },
+      ]
+    }, {
+      path: '/index',
       title: '主页',
       component: Welcome,
       children: [
@@ -44,7 +54,7 @@ router.beforeEach((to, form, next) => {
       next();
     } else {
       next({
-        path: '/login',
+        path: '/',
         query: { redirect: to.fullPath }
       })
     }

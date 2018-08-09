@@ -30,7 +30,7 @@
               </Button>
             </Form>
             <div class="others-item">
-              <span>去注册</span>
+              <span @click="navToRegisterBtn()">去注册</span>
               <span>忘记密码?</span>
             </div>
           </Card>
@@ -109,12 +109,6 @@ export default {
     //       console.log(error);
     //     });
     // },
-    // 加密
-    // rsaEncrypt: function(message, key) {
-    //   let pubkey = new RSA(key);
-    //   let encrypted = pubkey.encrypt(message, "base64");
-    //   return encrypted;
-    // },
     submitBtn: function(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
@@ -123,6 +117,9 @@ export default {
           this.$Message.error("请检查所填内容!");
         }
       });
+    },
+    navToRegisterBtn: function() {
+      this.$router.push({ path: "/register", name: "register" });
     },
     // 发送用户信息
     sendUserData: function(user) {
@@ -141,7 +138,7 @@ export default {
           if (res.data.resCode.code < 1050) {
             setTimeout(() => {
               this.loading = false;
-              this.$router.push("/");
+              this.$router.push("/index");
             }, 1000);
             this.$store.dispatch("UserLogin", res.data.token);
             // this.$store.dispatch("UserName", username);
@@ -153,7 +150,7 @@ export default {
           }
         })
         .catch(err => {
-          // this.$Message.error("服务器忙");
+          this.$Message.error("服务器忙");
           setTimeout(() => {
             this.loading = false;
           }, 1000);
