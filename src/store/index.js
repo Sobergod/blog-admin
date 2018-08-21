@@ -5,13 +5,8 @@ Vue.use(Vuex)
 const state = {
     token: window.sessionStorage.getItem('token'),
     username: '',
-    bind: window.localStorage.getItem('bind', data) ? false : window.localStorage.setItem('bind', data),
 };
 const mutations = {
-    BIND: (state, data) => {
-        state.bind = data;
-        window.localStorage.setItem('bind', data);
-    },
     LOGIN: (state, data) => {
         //更改token的值
         state.token = data;
@@ -38,9 +33,6 @@ const actions = {
     UserName({ commit }, data) {
         commit('USERNAME', data);
     },
-    UserBind({ commit }, data) {
-        commit('BIND', data);
-    }
 };
 
 export default new Vuex.Store({
