@@ -40,7 +40,7 @@ AX.interceptors.response.use(
                 case 401:
                     store.dispatch('UserLogout');//清除当前错误token
                     router.replace({
-                        path: 'login',
+                        path: '/',
                         query: { redirect: router.currentRoute.fullPath }
                     });
                     break;
