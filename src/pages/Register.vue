@@ -1,42 +1,43 @@
 <template>
-    <div>
-        <h1 class="title">欢迎注册</h1>
-        <div class="from-wrap">
-            <Form ref="formCustom" :model="formCustom" :rules="ruleCustom">
-                <FormItem prop="user">
-                    <Input size="large" prefix="ios-contact" placeholder="请输入用户名" type="text" v-model="formCustom.user"></Input>
-                </FormItem>
-                <FormItem prop="passwd">
-                    <Input prefix="md-key" size="large" placeholder="请输入密码" type="password" v-model="formCustom.passwd"></Input>
-                </FormItem>
-                <FormItem prop="passwdCheck">
-                    <Input prefix="ios-hammer" placeholder="请确认密码" type="password" v-model="formCustom.passwdCheck"></Input>
-                </FormItem>
-                <FormItem prop="age">
-                    <Input prefix="ios-body" placeholder="请输入年龄" type="text" v-model="formCustom.age" number></Input>
-                </FormItem>
-                <FormItem prop="phone">
-                    <Input prefix="ios-call" placeholder="请输入电话" type="text" v-model="formCustom.phone" number></Input>
-                </FormItem>
-                <div class="input-item">
-                    <RadioGroup v-model="formCustom.sex">
-                        <Radio label="男"></Radio>
-                        <Radio label="女"></Radio>
-                        <Radio label="未知"></Radio>
-                    </RadioGroup>
-                </div>
-                <div class="button-wrap">
-                    <Button type="primary" @click="handleSubmit('formCustom')">提交</Button>
-                    <Button @click="handleReset('formCustom')" style="margin-left: 8px">清空</Button>
-                </div>
-            </Form>
+  <div>
+    <h1 class="title">欢迎注册</h1>
+    <div class="from-wrap">
+      <Form ref="formCustom" :model="formCustom" :rules="ruleCustom">
+        <FormItem prop="user">
+          <Input size="large" prefix="ios-contact" placeholder="请输入用户名" type="text" v-model="formCustom.user"></Input>
+        </FormItem>
+        <FormItem prop="passwd">
+          <Input prefix="md-key" size="large" placeholder="请输入密码" type="password" v-model="formCustom.passwd"></Input>
+        </FormItem>
+        <FormItem prop="passwdCheck">
+          <Input prefix="ios-hammer" placeholder="请确认密码" type="password" v-model="formCustom.passwdCheck"></Input>
+        </FormItem>
+        <FormItem prop="age">
+          <Input prefix="ios-body" placeholder="请输入年龄" type="text" v-model="formCustom.age" number></Input>
+        </FormItem>
+        <FormItem prop="phone">
+          <Input prefix="ios-call" placeholder="请输入电话" type="text" v-model="formCustom.phone" number></Input>
+        </FormItem>
+        <div class="input-item">
+          <RadioGroup v-model="formCustom.sex">
+            <Radio label="男"></Radio>
+            <Radio label="女"></Radio>
+            <Radio label="未知"></Radio>
+          </RadioGroup>
         </div>
-        <div class="bg-wrap" :style="bgStyle"></div>
+        <div class="button-wrap">
+          <Button type="primary" @click="handleSubmit('formCustom')">提交</Button>
+          <Button @click="handleReset('formCustom')" style="margin-left: 8px">清空</Button>
+        </div>
+      </Form>
     </div>
+    <div class="bg-wrap" :style="bgStyle"></div>
+  </div>
 </template>
 
 <script>
 const bg = require("../assets/bg2.jpg");
+import AX from "lib/axios-conf.js";
 export default {
   data() {
     const validateUser = (rule, value, callback) => {
@@ -123,6 +124,16 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
+          console.log(this.formCustom);
+          AX({
+            method: "post",
+            url: "/register",
+            data: {
+              userFrom: this.formCustom
+            }
+          }).then(res => {
+            console.log(res);
+          });
           this.$Message.success("Success!");
         } else {
           this.$Message.error("Fail!");

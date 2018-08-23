@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import iView from 'iview'
 import store from './store/index'
+import AX from "./lib/axios-conf.js";
 import 'iview/dist/styles/iview.css';
 Vue.use(iView);
 Vue.config.productionTip = false
@@ -14,5 +15,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  AX,
   render: h => h(App)
 })
